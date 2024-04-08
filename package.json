@@ -1,0 +1,61 @@
+{
+  "name": "todo-list",
+  "displayName": "TODO list",
+  "description": "A simple TODO in markdown file",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.87.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onLanguage:markdown"
+  ],
+  "main": "./extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "todo-list.createTodoFile",
+        "category": "TODO-list",
+        "title": "Create TODO.md file"
+      },
+      {
+        "command": "todo-list.toggleTodo",
+        "category": "TODO-list",
+        "title": "Toggle a TODO item between checked and unchecked"
+      },
+      {
+        "command": "todo-list.addTodoItem",
+        "category": "TODO-list",
+        "title": "Add a todo item"
+      }
+    ],
+    "keybindings": [
+      {
+        "key": "ctrl+shift+t",
+        "command": "todo-list.toggleTodo",
+        "when": "editorTextFocus"
+      },
+      {
+        "key": "ctrl+shift+y",
+        "command": "todo-list.addTodoItem",
+        "when": "editorTextFocus"
+      }
+    ]
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "pretest": "npm run lint",
+    "test": "vscode-test"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.87.0",
+    "@types/mocha": "^10.0.6",
+    "@types/node": "18.x",
+    "eslint": "^8.56.0",
+    "typescript": "^5.3.3",
+    "@vscode/test-cli": "^0.0.6",
+    "@vscode/test-electron": "^2.3.9"
+  }
+}
