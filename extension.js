@@ -1,48 +1,73 @@
 const vscode = require("vscode");
 const fs = require("fs");
 
-function applyDecoration(editor) {
-  const decorations = [];
-  const document = editor.document;
-  vscode.window.showWarningMessage(`bless-${document.lineCount}`);
+// Get configuration values
+let backgroundColor = vscode.workspace
+  .getConfiguration()
+  .get("todo-list.backgroundColor");
 
-  for (let i = 0; i < document.lineCount; i++) {
-    const line = document.lineAt(i);
-    const lineText = line.text;
-    vscode.window.showWarningMessage(`linetext ${lineText}`);
-    const startIndex = lineText.indexOf("- [x]");
+let useStrikeThrough = vscode.workspace
+  .getConfiguration()
+  .get("todo-list.useStrikeThrough");
 
-    if (startIndex !== -1) {
-      const range = new vscode.Range(
-        line.range.start,
-        line.range.start.translate(0, lineText.length)
-      );
-      decorations.push({
-        range: range,
-      });
-    }
-  }
+let textDecorationType = vscode.window.createTextEditorDecorationType({
+  textDecoration: useStrikeThrough,
+  backgroundColor: backgroundColor,
+});
 
-  const textDecorationType = vscode.window.createTextEditorDecorationType({
-    textDecoration: "line-through",
-    backgroundColor: "#57886C",
+function updateDecorationType() {
+  // Get the setting value
+  const backgroundColor = vscode.workspace
+    .getConfiguration()
+    .get("todo-list.backgroundColor");
+
+  const useStrikeThrough = vscode.workspace
+    .getConfiguration()
+    .get("todo-list.useStrikeThrough");
+
+  // Update decoration type based on setting value
+  textDecorationType.dispose(); // Dispose the old decoration type
+
+  // Create the new decoration type with updated settings
+  textDecorationType = vscode.window.createTextEditorDecorationType({
+    textDecoration: useStrikeThrough ? "line-through" : "none",
+    backgroundColor,
   });
-  editor.setDecorations(textDecorationType, decorations);
+}
+
+function applyDecoration(editor) {
+  if (editor.document.fileName.endsWith("TODO.md")) {
+    const decorations = [];
+    const document = editor.document;
+
+    for (let i = 0; i < document.lineCount; i++) {
+      const line = document.lineAt(i);
+      const lineText = line.text;
+      const startIndex = lineText.indexOf("- [x]");
+      if (startIndex !== -1) {
+        const range = new vscode.Range(
+          line.range.start,
+          line.range.start.translate(0, lineText.length)
+        );
+        decorations.push({
+          range: range,
+        });
+      }
+    }
+
+    editor.setDecorations(textDecorationType, decorations);
+  }
 }
 
 function removeDecoration(editor) {
   const emptyDecorations = []; // Empty array to remove decorations
   const document = editor.document;
-  vscode.window.showWarningMessage(`ble-${document.lineCount}`);
 
   for (let i = 0; i < document.lineCount; i++) {
-    vscode.window.showWarningMessage(`ble2-${document.lineCount}`);
-
     const line = document.lineAt(i);
     const lineText = line.text;
     const startIndex = lineText.indexOf("- [ ]");
 
-    vscode.window.showWarningMessage(`startindex = ${startIndex}`);
     if (startIndex !== -1) {
       const range = new vscode.Range(
         line.range.start,
@@ -54,11 +79,7 @@ function removeDecoration(editor) {
     }
   }
 
-  const textDecorationType = vscode.window.createTextEditorDecorationType({
-    textDecoration: "",
-    backgroundColor: "",
-  });
-  editor.setDecorations(textDecorationType, emptyDecorations);
+  editor.setDecorations(textDecorationType, []);
 }
 
 function checkOpenEditors() {
@@ -93,11 +114,16 @@ function activate(context) {
             lineText.substring(0, startIndex) +
             "- [x]" +
             lineText.substring(startIndex + 5);
-          editor.edit((editBuilder) => {
-            editBuilder.replace(line.range, newText);
-          });
-          vscode.window.showWarningMessage("fyrir apply", editor);
-          applyDecoration(editor);
+          editor
+            .edit((editBuilder) => {
+              editBuilder.replace(line.range, newText);
+            })
+            .then((success) => {
+              if (success) {
+                applyDecoration(editor);
+              } else {
+              }
+            });
         }
         // Check if the todo item is checked ("- [x]")
         else {
@@ -107,12 +133,18 @@ function activate(context) {
               lineText.substring(0, startIndexChecked) +
               "- [ ]" +
               lineText.substring(startIndexChecked + 5);
-            editor.edit((editBuilder) => {
-              editBuilder.replace(line.range, newText);
-            });
-            vscode.window.showWarningMessage("fyrir remove", editor);
-
-            removeDecoration(editor);
+            editor
+              .edit((editBuilder) => {
+                editBuilder.replace(line.range, newText);
+              })
+              .then((success) => {
+                if (success) {
+                  // The edit operation was successful
+                  removeDecoration(editor);
+                } else {
+                  // Handle failure to edit, if needed
+                }
+              });
           }
         }
       }
@@ -217,29 +249,29 @@ function activate(context) {
     }
   });
 
-  vscode.workspace.onDidChangeTextDocument((event) => {
-    if (
-      vscode.window.activeTextEditor &&
-      event.document === vscode.window.activeTextEditor.document
-    ) {
-      applyDecoration(vscode.window.activeTextEditor);
-      // removeDecoration(vscode.window.activeTextEditor);
-    }
-  });
-
   vscode.window.onDidChangeVisibleTextEditors((editors) => {
     // Iterate over the visible text editors
     for (const editor of editors) {
       // Check if the opened file matches the desired file (e.g., "TODO.md")
       if (editor.document.fileName.endsWith("TODO.md")) {
         applyDecoration(editor);
-        // removeDecoration(editor);
       }
     }
   });
 
   context.subscriptions.push(disposable, disposableCreate, disposableAddItem);
 }
+
+// Watch for configuration changes
+vscode.workspace.onDidChangeConfiguration((event) => {
+  if (
+    event.affectsConfiguration("todo-list.backgroundColor") ||
+    event.affectsConfiguration("todo-list.useStrikeThrough")
+  ) {
+    // Update the decoration type
+    updateDecorationType();
+  }
+});
 
 // This method is called when your extension is deactivated
 function deactivate() {}

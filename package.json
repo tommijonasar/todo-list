@@ -42,7 +42,20 @@
         "command": "todo-list.addTodoItem",
         "when": "editorTextFocus"
       }
-    ]
+    ],
+    "configuration": {
+      "type": "object",
+      "properties": {
+        "todo-list.backgroundColor": {
+          "type": "string",
+          "default": "#57886C"
+        },
+        "todo-list.useStrikeThrough": {
+          "type": "boolean",
+          "default": true
+        }
+      }
+    }
   },
   "scripts": {
     "lint": "eslint .",
