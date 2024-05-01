@@ -179,9 +179,14 @@ function activate(context) {
         }
 
         const newText = "- [ ] " + lineText;
-        editor.edit((editBuilder) => {
-          editBuilder.insert(position.with(undefined, 0), newText);
-        });
+        editor
+          .edit((editBuilder) => {
+            editBuilder.insert(position.with(undefined, 0), newText);
+          })
+          .then(() => {
+            removeDecoration(editor);
+            vscode.window.showInformationMessage("New todo item added");
+          });
 
         vscode.window.showInformationMessage("New todo item added");
       } else {

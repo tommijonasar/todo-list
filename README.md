@@ -1,65 +1,61 @@
-# todo-list README
+# Simple TODO list
 
-This is the README for your extension "simple-todo-list". After writing up a brief description, we recommend including the following sections.
+A really simple TODO list extension to manage your list of TODOs from a simple markdown file within your code.
 
 ## Features
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+Using the extension it is possible to create a TODO file, add items to that file and toggle each item on and off.
 
-For example if there is an image subfolder under your extension project workspace:
+### Create a TODO file
 
-\!\[feature X\]\(images/feature-x.png\)
+To create a new TODO file use the Command Pallette(`CMD+SHIFT+P` / `CTRL+SHIFT+P`) and search for `Simple TODO list: Create TODO.md file`. Executing this command will create a new `TODO.md` file in the root of the open project.
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+//TODO: add a gif
 
-## Requirements
+### Create a TODO item
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+There are two options to create a new TODO item in the TODO file.
+
+1. Use the Command Pallette and search for `Simple TODO list: Add a todo item`.
+
+2. Use the shortcut `(CTRL+SHIFT+Y)`
+
+//TODO: add a gif
+
+### Toggle a TODO item
+
+There are two options to toggle a TODO item between checked and unchecked states.
+
+1. Use the Command Pallette and search for `Simple TODO list: Toggle a TODO item between checked and unchecked`.
+
+2. Use the shortcut `(CTRL+SHIFT+T)`
 
 ## Extension Settings
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
+The look of the checked of items can be customized in two ways, using a ~~strikethrough~~ and a <span style="background-color:#57886C;">background color</span>.
 
-For example:
+### Strikethrough
 
-This extension contributes the following settings:
+To toggle the strikethrough option on and off, go to the Settings and search for `Simple TODO list` and a checkbox will be available to control the strikethrough option. By default the strikethrough option is `enabled`.
 
-- `myExtension.enable`: Enable/disable this extension.
-- `myExtension.thing`: Set to `blah` to do something.
+- `simple-todo-list.useStrikeThrough`: A boolean that indicates if the checked items on the TODO list should have a strikethrough or not.
+
+//TODO: Add a gif
+
+### Background color
+
+An input to control the background color of the checked items in the TODO list. Go to the Settings and search for `Simple TODO list` and an input will be available to control the bacgkround color option. The background color value should be provided in a `HEX format`. By default the background color is set to #57886C but all valid `HEX` colors can be used. If no value is provided, no background color will be applied to checked items.
+
+- `simple-todo-list.backgroundColor`: A HEX value for the background color of checked items, leave empty if no background color should be used.
+
+//TODO: Add a gif
 
 ## Known Issues
 
-Calling out known issues can help limit users opening duplicate issues against your extension.
+//TODO: describe when settings are open that it is sometimes required to change editors
 
 ## Release Notes
 
-Users appreciate release notes as you update your extension.
+### 0.0.1
 
-### 1.0.0
-
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
-
----
-
-## Working with Markdown
-
-You can author your README using Visual Studio Code. Here are some useful editor keyboard shortcuts:
-
-- Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux)
-- Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux)
-- Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets
-
-## For more information
-
-- [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-- [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
+Initial release of Simple TODO list
