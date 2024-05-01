@@ -4,26 +4,31 @@ const fs = require("fs");
 // Get configuration values
 let backgroundColor = vscode.workspace
   .getConfiguration()
-  .get("todo-list.backgroundColor");
+  .get("simple-todo-list.backgroundColor");
 
 let useStrikeThrough = vscode.workspace
   .getConfiguration()
-  .get("todo-list.useStrikeThrough");
+  .get("simple-todo-list.useStrikeThrough");
 
 let textDecorationType = vscode.window.createTextEditorDecorationType({
-  textDecoration: useStrikeThrough,
+  textDecoration: useStrikeThrough ? "line-through" : "none",
   backgroundColor: backgroundColor,
+});
+
+let clearDecorationType = vscode.window.createTextEditorDecorationType({
+  textDecoration: "none",
+  backgroundColor: null,
 });
 
 function updateDecorationType() {
   // Get the setting value
   const backgroundColor = vscode.workspace
     .getConfiguration()
-    .get("todo-list.backgroundColor");
+    .get("simple-todo-list.backgroundColor");
 
   const useStrikeThrough = vscode.workspace
     .getConfiguration()
-    .get("todo-list.useStrikeThrough");
+    .get("simple-todo-list.useStrikeThrough");
 
   // Update decoration type based on setting value
   textDecorationType.dispose(); // Dispose the old decoration type
@@ -79,7 +84,8 @@ function removeDecoration(editor) {
     }
   }
 
-  editor.setDecorations(textDecorationType, []);
+  editor.setDecorations(clearDecorationType, emptyDecorations);
+  applyDecoration(editor);
 }
 
 function checkOpenEditors() {
@@ -98,7 +104,7 @@ function activate(context) {
   checkOpenEditors();
 
   let disposable = vscode.commands.registerCommand(
-    "todo-list.toggleTodo",
+    "simple-todo-list.toggleTodo",
     () => {
       const editor = vscode.window.activeTextEditor;
       if (editor) {
@@ -152,7 +158,7 @@ function activate(context) {
   );
 
   let disposableAddItem = vscode.commands.registerCommand(
-    "todo-list.addTodoItem",
+    "simple-todo-list.addTodoItem",
     () => {
       const editor = vscode.window.activeTextEditor;
       if (editor) {
@@ -183,7 +189,7 @@ function activate(context) {
   );
 
   let disposableCreate = vscode.commands.registerCommand(
-    "todo-list.createTodoFile",
+    "simple-todo-list.createTodoFile",
     () => {
       if (
         vscode.workspace.workspaceFolders &&
@@ -265,11 +271,18 @@ function activate(context) {
 // Watch for configuration changes
 vscode.workspace.onDidChangeConfiguration((event) => {
   if (
-    event.affectsConfiguration("todo-list.backgroundColor") ||
-    event.affectsConfiguration("todo-list.useStrikeThrough")
+    event.affectsConfiguration("simple-todo-list.backgroundColor") ||
+    event.affectsConfiguration("simple-todo-list.useStrikeThrough")
   ) {
     // Update the decoration type
     updateDecorationType();
+    // const editor = vscode.window.activeTextEditor;
+
+    // // Check if an editor is open
+    // if (editor) {
+    //   // Update the decoration type
+    //   applyDecoration(editor);
+    // }
   }
 });
 

@@ -1,8 +1,15 @@
 {
-  "name": "todo-list",
-  "displayName": "TODO list",
-  "description": "A simple TODO in markdown file",
+  "name": "simple-todo-list",
+  "displayName": "Simple TODO list",
+  "description": "A simple TODO list in markdown file",
   "version": "0.0.1",
+  "author": "Tómas Jónasson <tommijonasar@gmail.com>",
+  "keywords": [
+    "TODO",
+    "TODO list",
+    "productivity",
+    "simple"
+  ],
   "engines": {
     "vscode": "^1.87.0"
   },
@@ -16,43 +23,45 @@
   "contributes": {
     "commands": [
       {
-        "command": "todo-list.createTodoFile",
-        "category": "TODO-list",
+        "command": "simple-todo-list.createTodoFile",
+        "category": "Simple TODO list",
         "title": "Create TODO.md file"
       },
       {
-        "command": "todo-list.toggleTodo",
-        "category": "TODO-list",
+        "command": "simple-todo-list.toggleTodo",
+        "category": "Simple TODO list",
         "title": "Toggle a TODO item between checked and unchecked"
       },
       {
-        "command": "todo-list.addTodoItem",
-        "category": "TODO-list",
+        "command": "simple-todo-list.addTodoItem",
+        "category": "Simple TODO list",
         "title": "Add a todo item"
       }
     ],
     "keybindings": [
       {
         "key": "ctrl+shift+t",
-        "command": "todo-list.toggleTodo",
+        "command": "simple-todo-list.toggleTodo",
         "when": "editorTextFocus"
       },
       {
         "key": "ctrl+shift+y",
-        "command": "todo-list.addTodoItem",
+        "command": "simple-todo-list.addTodoItem",
         "when": "editorTextFocus"
       }
     ],
     "configuration": {
       "type": "object",
       "properties": {
-        "todo-list.backgroundColor": {
+        "simple-todo-list.backgroundColor": {
           "type": "string",
-          "default": "#57886C"
+          "default": "#57886C",
+          "description": "A HEX value for the background color of checked items, leave empty if no background color should be used."
         },
-        "todo-list.useStrikeThrough": {
+        "simple-todo-list.useStrikeThrough": {
           "type": "boolean",
-          "default": true
+          "default": true,
+          "description": "Indicates if the checked items on the TODO list should have a strikethrough or not."
         }
       }
     }
