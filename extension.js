@@ -38,6 +38,8 @@ function updateDecorationType() {
     textDecoration: useStrikeThrough ? "line-through" : "none",
     backgroundColor,
   });
+
+  vscode.window.showInformationMessage("Simple TODO list settings updated");
 }
 
 function applyDecoration(editor) {
@@ -274,15 +276,7 @@ vscode.workspace.onDidChangeConfiguration((event) => {
     event.affectsConfiguration("simple-todo-list.backgroundColor") ||
     event.affectsConfiguration("simple-todo-list.useStrikeThrough")
   ) {
-    // Update the decoration type
     updateDecorationType();
-    // const editor = vscode.window.activeTextEditor;
-
-    // // Check if an editor is open
-    // if (editor) {
-    //   // Update the decoration type
-    //   applyDecoration(editor);
-    // }
   }
 });
 
