@@ -2,6 +2,7 @@
   "name": "simple-todo-list",
   "displayName": "Simple TODO list",
   "description": "A simple TODO list in markdown file",
+  "icon": "images/simple-todo-list.png",
   "version": "0.0.1",
   "author": "Tómas Jónasson <tommijonasar@gmail.com>",
   "keywords": [
