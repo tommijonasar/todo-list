@@ -5,6 +5,7 @@
   "icon": "images/simple-todo-list.png",
   "version": "0.0.1",
   "author": "Tómas Jónasson <tommijonasar@gmail.com>",
+  "repository": "https://github.com/tommijonasar/todo-list",
   "keywords": [
     "TODO",
     "TODO list",
