@@ -42,7 +42,7 @@ function updateDecorationType() {
   vscode.window.showInformationMessage("Simple TODO list settings updated");
 }
 
-function applyDecoration(editor) {
+const applyDecoration = (editor) => {
   if (editor.document.fileName.endsWith("TODO.md")) {
     const decorations = [];
     const document = editor.document;
@@ -64,7 +64,7 @@ function applyDecoration(editor) {
 
     editor.setDecorations(textDecorationType, decorations);
   }
-}
+};
 
 function removeDecoration(editor) {
   const emptyDecorations = []; // Empty array to remove decorations
@@ -258,7 +258,6 @@ function activate(context) {
   vscode.window.onDidChangeActiveTextEditor((editor) => {
     if (editor) {
       applyDecoration(editor);
-      // removeDecoration(editor);
     }
   });
 

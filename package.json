@@ -22,7 +22,7 @@
   "activationEvents": [
     "onLanguage:markdown"
   ],
-  "main": "./extension.js",
+  "main": "./src/extension.js",
   "contributes": {
     "commands": [
       {
