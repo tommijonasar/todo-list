@@ -3,7 +3,7 @@
   "displayName": "Simple TODO list",
   "description": "A simple TODO list in markdown file",
   "icon": "img/simple-todo-list.png",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "author": "Tómas Jónasson <tommijonasar@gmail.com>",
   "publisher": "TmasJnasson",
   "repository": "https://github.com/tommijonasar/todo-list",
