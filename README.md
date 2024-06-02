@@ -58,6 +58,11 @@ An input to control the background color of the checked items in the TODO list. 
 
 ## Release Notes
 
+### 0.0.2
+
+- Update README
+- Update extension logo path
+
 ### 0.0.1
 
 Initial release of Simple TODO list
