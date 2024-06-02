@@ -20,7 +20,7 @@ let clearDecorationType = vscode.window.createTextEditorDecorationType({
   backgroundColor: null,
 });
 
-function updateDecorationType() {
+const updateDecorationType = () => {
   // Get the setting value
   const backgroundColor = vscode.workspace
     .getConfiguration()
@@ -40,9 +40,9 @@ function updateDecorationType() {
   });
 
   vscode.window.showInformationMessage("Simple TODO list settings updated");
-}
+};
 
-function applyDecoration(editor) {
+const applyDecoration = (editor) => {
   if (editor.document.fileName.endsWith("TODO.md")) {
     const decorations = [];
     const document = editor.document;
@@ -64,9 +64,9 @@ function applyDecoration(editor) {
 
     editor.setDecorations(textDecorationType, decorations);
   }
-}
+};
 
-function removeDecoration(editor) {
+const removeDecoration = (editor) => {
   const emptyDecorations = []; // Empty array to remove decorations
   const document = editor.document;
 
@@ -88,16 +88,16 @@ function removeDecoration(editor) {
 
   editor.setDecorations(clearDecorationType, emptyDecorations);
   applyDecoration(editor);
-}
+};
 
-function checkOpenEditors() {
+const checkOpenEditors = () => {
   const editors = vscode.window.visibleTextEditors;
   for (const editor of editors) {
     if (editor.document.fileName.endsWith("TODO.md")) {
       applyDecoration(editor);
     }
   }
-}
+};
 
 /**
  * @param {vscode.ExtensionContext} context
@@ -109,7 +109,7 @@ function activate(context) {
     "simple-todo-list.toggleTodo",
     () => {
       const editor = vscode.window.activeTextEditor;
-      if (editor) {
+      if (editor && editor.document.fileName.endsWith("TODO.md")) {
         const document = editor.document;
         const lineNumber = editor.selection.active.line;
         const line = document.lineAt(lineNumber);
@@ -155,6 +155,10 @@ function activate(context) {
               });
           }
         }
+      } else {
+        vscode.window.showWarningMessage(
+          "No active text editor found or TODO.md is not the active editor"
+        );
       }
     }
   );
@@ -163,7 +167,7 @@ function activate(context) {
     "simple-todo-list.addTodoItem",
     () => {
       const editor = vscode.window.activeTextEditor;
-      if (editor) {
+      if (editor && editor.document.fileName.endsWith("TODO.md")) {
         const document = editor.document;
         const position = editor.selection.active;
 
@@ -190,7 +194,9 @@ function activate(context) {
 
         vscode.window.showInformationMessage("New todo item added");
       } else {
-        vscode.window.showWarningMessage("No active text editor found");
+        vscode.window.showWarningMessage(
+          "No active text editor found or TODO.md is not the active editor"
+        );
       }
     }
   );
@@ -258,7 +264,6 @@ function activate(context) {
   vscode.window.onDidChangeActiveTextEditor((editor) => {
     if (editor) {
       applyDecoration(editor);
-      // removeDecoration(editor);
     }
   });
 

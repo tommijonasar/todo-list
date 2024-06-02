@@ -58,6 +58,11 @@ An input to control the background color of the checked items in the TODO list. 
 
 ## Release Notes
 
+## 0.0.3
+
+- Small refactoring
+- Only possible to toggle and add items in TODO.md
+
 ### 0.0.2
 
 - Update README
